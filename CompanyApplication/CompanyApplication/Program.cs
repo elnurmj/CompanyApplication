@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using CompanyApplication.Controller;
+using Domain.Models;
 using Service.Helpers;
 using Service.Services;
 using System;
@@ -9,7 +10,9 @@ namespace CompanyApplication
     {
         static void Main(string[] args)
         {
-            CompanyService companyService = new CompanyService();
+            CompanyController companyController = new CompanyController();
+
+            EmployeeController employeeController = new EmployeeController();
 
             Helper.WritetoConsole(ConsoleColor.Blue, "Select option");
 
@@ -28,59 +31,42 @@ namespace CompanyApplication
                     switch (option)
                     {
                         case (int) MyEnums.Menus.CreateCompany:
-                            Helper.WritetoConsole(ConsoleColor.Cyan, "Add Company name");
-                            string companyName = Console.ReadLine();
-                            Helper.WritetoConsole(ConsoleColor.Cyan, "Add Company room count");
-                            EnterCount:  string roomCount = Console.ReadLine();
-                            int count;
-                            bool isTrueCount = int.TryParse(roomCount, out count);
-
-                            if (isTrueCount)
-                            {
-                                Company company = new Company()
-                                {
-                                    Name = companyName,
-                                    RoomCount = count
-                                };
-                                var result = companyService.Create(company);
-
-                                if (result != null)
-                                {
-                                    Helper.WritetoConsole(ConsoleColor.Green, $"{company.Name} Company created");
-                                }
-                                else
-                                {
-                                    Helper.WritetoConsole(ConsoleColor.Red, "Something is wrong");
-                                    goto EnterCount;
-                                }
-                            }
-                            else
-                            {
-                                Helper.WritetoConsole(ConsoleColor.Red, "Try again");
-                                goto EnterCount;
-                            }
+                            companyController.Create();
                             break;
                         case (int)MyEnums.Menus.UpdateCompany:
+                            companyController.Update();
                             break;
                         case (int)MyEnums.Menus.DeleteCompany:
+                            companyController.Delete();
                             break;
                         case (int)MyEnums.Menus.GetCompanyByID:
+                            companyController.GetById();
                             break;
                         case (int)MyEnums.Menus.GetAllCompanyByname:
+                            companyController.GetByName();
                             break;
                         case (int)MyEnums.Menus.GetAllCompany:
+                            companyController.GetAll();
+
                             break;
                         case (int)MyEnums.Menus.CreateEmployee:
+                            employeeController.Create();
+
                             break;
                         case (int)MyEnums.Menus.UpdateEmployee:
+
                             break;
                         case (int)MyEnums.Menus.GetEmployeeByID:
+
                             break;
                         case (int)MyEnums.Menus.DeleteEmployee:
+
                             break;
                         case (int)MyEnums.Menus.GetEmployeeByAge:
+
                             break;
                         case (int)MyEnums.Menus.GetAllEmployeeByCompanyID:
+
                             break;
 
                     }

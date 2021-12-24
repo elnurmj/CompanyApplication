@@ -9,9 +9,10 @@ namespace Service.Services.Interfaces
     {
         Company Create(Company model);
         Company Update(int id, Company model);
-        void Delete(Company model);
-        Company Get(Predicate<Company> filter);
-        List<Company> GetAll(Predicate<Company> filter);
+        void Delete(Company company);
+        Company GetById(int id);
+        List<Company> GetAll();
+        List<Company> GetByName(string name);
 
     }
 }

@@ -23,24 +23,33 @@ namespace Service.Services
             return model;
         }
 
-        public void Delete(Company model)
+        public void Delete(Company company)
         {
-            throw new NotImplementedException();
+            companyRepository.Delete(company);
         }
 
-        public Company Get(Predicate<Company> filter)
+        public Company GetById(int id)
         {
-            throw new NotImplementedException();
+            return companyRepository.GetById(m => m.Id == id);
+           
         }
 
-        public List<Company> GetAll(Predicate<Company> filter)
+        public List<Company> GetAll()
         {
-            throw new NotImplementedException();
+            return companyRepository.GetAll(null);
         }
 
         public Company Update(int id, Company model)
         {
-            throw new NotImplementedException();
+            var company = GetById(id);
+            model.Id = company.Id;
+            companyRepository.Update(model);
+            return model;
+        }
+
+        public List<Company> GetByName(string name)
+        {
+            return companyRepository.GetByName(m => m.Name == name);
         }
     }
 }

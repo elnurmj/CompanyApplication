@@ -9,8 +9,9 @@ namespace Repository.Interfaces
         bool Create(T entity);
         bool Update(T entity);
         bool Delete(T entity);
-        T Get(Predicate<T> filter);
+        T GetById(Predicate<T> filter);
         List<T> GetAll(Predicate<T> filter);
+        
 
     }
 }
