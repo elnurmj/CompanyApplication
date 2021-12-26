@@ -129,8 +129,30 @@ namespace CompanyApplication.Controller
         }
         public void GetById()
         {
-            
+            Helper.WritetoConsole(ConsoleColor.Cyan, "Add Employee Id: ");
+            EnterId: string employeeId = Console.ReadLine();
+            int id;
+            bool isIdTrue = int.TryParse(employeeId, out id);
 
+            if (isIdTrue)
+            {
+                var employee1 = employeeService.GetById(id);
+
+                if (employee1 == null)
+                {
+                    Helper.WritetoConsole(ConsoleColor.Red, "Employee not found, try id again");
+                    goto EnterId;
+                }
+                else
+                {
+                    Helper.WritetoConsole(ConsoleColor.Green, $"{employee1.Id} - {employee1.Name} - {employee1.Surname} works in {employee1.Company.Name}");
+                }
+            }
+            else
+            {
+                Helper.WritetoConsole(ConsoleColor.Red, "Try id again");
+                goto EnterId;
+            }
         }
         public void Delete()
         {
