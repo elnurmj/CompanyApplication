@@ -156,7 +156,31 @@ namespace CompanyApplication.Controller
         }
         public void Delete()
         {
-            
+            Helper.WritetoConsole(ConsoleColor.Cyan, "Add Employee Id: ");
+            EnterId: string employeeId = Console.ReadLine();
+            int id;
+
+            bool isIdTrue = int.TryParse(employeeId, out id);
+            if (isIdTrue)
+            {
+                var employee = employeeService.GetById(id);
+                if (employee == null)
+                {
+                    Helper.WritetoConsole(ConsoleColor.Red, "Employee not found, try id again");
+                    goto EnterId;
+                }
+                else
+                {
+                    employeeService.Delete(employee);
+                    Helper.WritetoConsole(ConsoleColor.Green, "Employee is deleted");
+                }
+            }
+            else
+            {
+                Helper.WritetoConsole(ConsoleColor.Red, "Try id again");
+                goto EnterId;
+            }
+
         }
         public void GetByAge()
         {
