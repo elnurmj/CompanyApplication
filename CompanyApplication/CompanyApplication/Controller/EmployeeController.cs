@@ -184,7 +184,25 @@ namespace CompanyApplication.Controller
         }
         public void GetByAge()
         {
-            
+            Helper.WritetoConsole(ConsoleColor.Cyan, "Add Employee age ");
+        EnterAge: string employeeAge = Console.ReadLine();
+
+            int age;
+            bool isTrueAge = int.TryParse(employeeAge, out age);
+            if (isTrueAge)
+            {
+                var employeeAges = employeeService.GetByAge(age);
+
+                foreach (var item in employeeAges)
+                {
+                    Helper.WritetoConsole(ConsoleColor.Green, $"{item.Id} - {item.Name} - {item.Surname} works in {item.Company.Name}");
+                }
+            }
+            else
+            {
+                Helper.WritetoConsole(ConsoleColor.Red, "Employee not found, try age again");
+                goto EnterAge;
+            }
         }
         public void GetByCompanyId()
         {
