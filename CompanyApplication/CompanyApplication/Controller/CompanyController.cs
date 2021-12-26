@@ -57,7 +57,7 @@ namespace CompanyApplication.Controller
             Helper.WritetoConsole(ConsoleColor.Cyan, "Add Company ID");
             EnterId: string companyid = Console.ReadLine();
             Helper.WritetoConsole(ConsoleColor.Cyan, "Add new Company name");
-            string newName = Console.ReadLine();
+            EnterName:  string newName = Console.ReadLine();
             Helper.WritetoConsole(ConsoleColor.Cyan, "Add new address");
             string newAddress = Console.ReadLine();
 
@@ -69,19 +69,23 @@ namespace CompanyApplication.Controller
 
             if (isIdTrue)
             {
-              
-               Company company = new Company()
+
+                if (string.IsNullOrEmpty(newName) || string.IsNullOrEmpty(newAddress))
+                {
+                    Helper.WritetoConsole(ConsoleColor.Red, "Try Name and Address again");
+                    goto EnterName;
+                }
+                else
+                {
+                    Company company = new Company
                     {
                         Name = newName,
-                        Address = newAddress
+                        Address = newAddress,
                     };
+                    var newCompany = companyService.Update(id, company);
+                    Helper.WritetoConsole(ConsoleColor.Green, $"{newCompany.Id} - {newCompany.Name} - {newCompany.Address}");
+                }
 
-               var newCompany = companyService.Update(id, company);
-
-                    Helper.WritetoConsole(ConsoleColor.Green, $"{company.Id} - {company.Name} - {company.Address} - Company created");
-
-                
-              
             }
             else
             {
@@ -137,7 +141,7 @@ namespace CompanyApplication.Controller
                 else
                 {
                     Helper.WritetoConsole(ConsoleColor.Green, $"{company.Id} - {company.Name} - {company.Address}");
-                    goto EnterId;
+                    
                 }
             }
             else
@@ -148,34 +152,32 @@ namespace CompanyApplication.Controller
         }
         public void GetByName()
         {
-        //Helper.WritetoConsole(ConsoleColor.Cyan, "Add Company Name");
-        //EnterId: string companyName = Console.ReadLine();
-        //    string name;
+            Helper.WritetoConsole(ConsoleColor.Cyan, "Add Company name: ");
+        EnterCompanyName:
+            string companyName = Console.ReadLine();
 
+            if (string.IsNullOrWhiteSpace(companyName))
+            {
+                Helper.WritetoConsole(ConsoleColor.Red, "Try Company name again");
+                goto EnterCompanyName;
+            }
+            else
+            {
+                var companyNames = companyService.GetByName(companyName);
+                foreach (var item in companyNames)
+                {
+                    if (item.Name != companyName)
+                    {
+                        Helper.WritetoConsole(ConsoleColor.Red, "Company not found, please try again");
+                        goto EnterCompanyName;
+                    }
+                    else
+                    {
+                        Helper.WritetoConsole(ConsoleColor.Green, $"{item.Id} - {item.Name} - {item.Address}");
 
-        //    if (name == companyName)
-        //    {
-        //        var company = companyService.GetByName(name);
-        //        if (company == null)
-        //        {
-        //            Helper.WritetoConsole(ConsoleColor.Red, "Company not found");
-        //            goto EnterId;
-        //        }
-        //        else
-        //        {
-        //            Helper.WritetoConsole(ConsoleColor.Green, $"{company.Id} - {company.Name} - {company.Address}");
-        //            goto EnterId;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Helper.WritetoConsole(ConsoleColor.Red, "Try again id");
-        //        goto EnterId;
-        //    }
-
-
-
-
+                    }
+                }
+            }
         }
         public void GetAll()
         {

@@ -29,22 +29,62 @@ namespace Repository.Implementaions
 
         public bool Delete(Employee entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                AppDbContext<Employee>.datas.Remove(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
-        public List<Employee> GetAll(Predicate<Employee> filter)
+        public List<Employee> GetAllByCompanyId(Predicate<Employee> filter)
         {
-            throw new NotImplementedException();
+            return filter == null ? AppDbContext<Employee>.datas : AppDbContext<Employee>.datas.FindAll(filter);
+        }
+
+        public List<Employee> GetByAge(Predicate<Employee> filter)
+        {
+            return filter == null ? AppDbContext<Employee>.datas : AppDbContext<Employee>.datas.FindAll(filter);
         }
 
         public Employee GetById(Predicate<Employee> filter)
         {
-            throw new NotImplementedException();
+            return filter == null ? AppDbContext<Employee>.datas[0] : AppDbContext<Employee>.datas.Find(filter);
         }
 
-        public bool Update(Employee entity)
+        public bool Update(Employee entity,Company company)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var employee = GetById(m => m.Id == entity.Id);
+
+                if (employee != null)
+                {
+                    if (!string.IsNullOrEmpty(entity.Name))
+                        employee.Name = entity.Name;
+
+                    if (!string.IsNullOrEmpty(entity.Surname))
+                        employee.Surname = entity.Surname;
+                    employee.Company = company;
+                    employee.Age = entity.Age;
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return false;
+            }
         }
     }
 }

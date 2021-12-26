@@ -45,27 +45,31 @@ namespace Service.Services
 
         public void Delete(Employee employee)
         {
-            throw new NotImplementedException();
+            employeeRepository.Delete(employee);
         }
 
-        public List<Employee> GetAll()
+        public List<Employee> GetAllByCompanyId(int companyid)
         {
-            throw new NotImplementedException();
+            return employeeRepository.GetAllByCompanyId(m => m.Company.Id == companyid);
         }
 
         public Employee GetById(int id)
         {
-            throw new NotImplementedException();
+            return employeeRepository.GetById(m => m.Id == id);
         }
 
-        public List<Employee> GetByName(string name)
+        public List<Employee> GetByAge(int age)
         {
-            throw new NotImplementedException();
+            return employeeRepository.GetByAge(m => m.Age == age);
         }
 
-        public Employee Update(int id, Employee model)
+        public Employee Update(int id, Employee model,Company company)
         {
-            throw new NotImplementedException();
+            var employee = GetById(id);
+            model.Company = company;
+            model.Id = employee.Id;
+            employeeRepository.Update(model, company);
+            return model;
         }
     }
 }
